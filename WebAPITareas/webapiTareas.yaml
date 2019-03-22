@@ -8,6 +8,44 @@ servers:
 security:
 - JWT_token: []
 paths:
+  /login/autorizar:
+    post:
+      tags:
+      - "Login"
+      summary: "Generar JWT Token de conexión"
+      description: "Realiza la generación del JWT Token a partir de los datos de usuario"
+      operationId: "Authenticate"
+      requestBody:
+        description: "LoginRequest"
+        content: 
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        200:
+          description: "successful operation"
+          content: 
+            text/plain:
+              schema:
+                title: "Token"
+                type: string
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InVzZXIxIiwibmJmIjoxNTUzMjI1MTMzLCJleHAiOjE1NTMyMjY5MzMsImlhdCI6MTU1MzIyNTEzMywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1NjAwMCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTYwMDAifQ.jRep6JVq5urnIOsiPBgCS9P-ljPtuhqQe5vzx7OKRos"
+        400:
+          description: "Bad Request Response (Los datos de login son obligatorios)"
+          content:
+            text/plain:
+              schema:
+                title: "Los datos de login son obligatorios"
+                type: string
+                example: "Bad Request"
+        401:
+          description: "Unauthorized (Los datos de login son erróneos)"
+          content:
+            text/plain:
+              schema:
+                title: "Los datos de login son erróneos"
+                type: string
+                example: "Unauthorized"                  
   /Tareas:
     get:
       tags:
@@ -195,3 +233,15 @@ components:
           type: number
           description: "Id de la Tarea"
           example: 17
+    LoginRequest:
+      title: "LoginRequest"
+      type: object
+      properties:
+        Username:
+          type: string
+          description: "Usuario"
+          example: "usuario12345"
+        Password:
+          type: string
+          description: "Password"
+          example: "pwd123456"
